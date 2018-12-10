@@ -1,6 +1,5 @@
 import {
-    FETCH_QUOTES,
-    FETCH_QUOTES_SUCCESS
+    FETCH_QUOTES_SUCCESS,
 } from '../actions/types'
 
 const INITIAL_STATE = {
@@ -13,7 +12,7 @@ export default (state = INITIAL_STATE, action) => {
         case FETCH_QUOTES_SUCCESS:
             return {
                 ...state,
-                quotes: action.payload
+                quotes: action.payload,
             }
         default:
             return state

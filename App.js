@@ -4,7 +4,7 @@ import ReduxThunk from 'redux-thunk'
 import { createStore, applyMiddleware } from 'redux'
 import reducers from './src/reducers'
 
-import MainScreen from './src/Screens/MainScreen';
+import MainScreen from './src/Screens/MainScreen'
 
 export default class App extends React.Component {
   render() {

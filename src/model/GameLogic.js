@@ -1,16 +1,14 @@
-
-export class GameLogic{
-    
-    constructor(){
+export default class GameLogic {
+    constructor() {
         this.quotes = []
         this.currentQuote = {
-            quote: "",
-            author: "",
-            answers: []
+            quote: '',
+            author: '',
+            answers: [],
         }
     }
 
-    answers(){
+    answers() {
         return this.currentQuote.answers
     }
 }
