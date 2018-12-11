@@ -5,6 +5,7 @@ import {
 const INITIAL_STATE = {
     quotes: [],
     players: [],
+    currentQuote: {}
 }
 
 export default (state = INITIAL_STATE, action) => {

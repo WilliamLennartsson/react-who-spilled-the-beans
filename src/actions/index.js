@@ -11,9 +11,6 @@ export const fetchQuotes = () => (dispatch) => {
         const API_KEY_RAPID = '59b44a5303msh83c407f6203c2ffp10467ajsnc4ae2fa612a1'
         const API_URI = 'https://andruxnet-random-famous-quotes.p.rapidapi.com/?cat=famous&count=10'
 
-        // const myHeaders = new Headers()
-        // myHeaders.append()
-
         fetch(API_URI, {
             headers: {
                 'X-RapidAPI-Key': API_KEY_RAPID,

@@ -23,16 +23,18 @@ export default class ButtonList extends Component {
     renderList() {
         const { names } = this.props
         const buttonNames = names
-        return (
-            buttonNames.map((buttonName, index) => (
-                <Button
+        //console.log(names, " NAmes")
+        return (<View style={styles.container}>
+            {names.map((answer, index) => {
+                return <Button
                     style={styles.button}
                     key={index}
+                    onPress={() => this.props.onPressListItem}
                 >
-                {buttonName.author}
+                {answer}
                 </Button>
-            ))
-        )
+            })}
+        </View>)
     }
 
     render() {

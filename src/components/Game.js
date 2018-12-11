@@ -2,46 +2,93 @@ import React, { Component } from 'react'
 import {
     View,
     Text,
-    Button,
     StyleSheet,
 } from 'react-native'
 import { connect } from 'react-redux'
-// import { getQuotes } from '../model/API'
+import { getQuotes } from '../model/API'
 import { fetchQuotes } from '../actions/index'
-import ButtonList from './ButtonList'
-import GameLogic from '../model/GameLogic'
+import { newCurrentQuote } from '../model/GameLogic'
+import Button from './reuseable/Button'
 
 class Game extends Component {
-    componentWillMount() {
-        this.model = new GameLogic()
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            quotes: [],
+            gameQuote: {
+                quote: {},
+                answers: []
+            },
+            quotesIndex: 0,
+            score: {
+                correctAnswers: 0,
+                attempts: 0
+            }
+        }
+    }
+
+    newCurrentQuote(){
+        const newGameQuote = newCurrentQuote(this.state)
+        let newIndex = this.state.quotesIndex + 1 
+        newIndex = newIndex == this.state.quotes.length ? 0 : newIndex 
+        this.setState({
+            quotesIndex: newIndex,
+            gameQuote: newGameQuote
+        })
     }
 
     startGame() {
-        this.props.fetchQuotes()
-        this.model.currentQuote.answers.push('aaaaaaaaa')
+        getQuotes((res) => {
+            this.setState({
+                ...this.state,
+                quotes: res
+            },
+            this.newCurrentQuote
+            )
+        })
     }
 
-    renderQuotes() {
-        console.log('this.props.quotes: ', this.props.quotes)
-
-        if (this.props.quotes.length === 0) {
-            return <Text>Press start to play, mannen</Text>
+    answerButtonPressed(name){
+        console.log(name, " : Name", this.state.gameQuote.quote.author, " ; answer")
+        if (this.state.gameQuote.quote.author == name) { 
+            console.log("You're right!")
+        } else {
+            console.log("You're garbage!")
         }
-        // model not connected to store yet so will use
-        // this.props.quotes instead of this.model.answers()
-        return (
-            <View style={styles.renderQuotesContainer}>
-                <Text style={{ fontSize: 20, textAlign: 'center' }}>{this.props.quotes[0].quote}</Text>
-                <ButtonList names={this.props.quotes} />
-            </View>
-        )
+        this.newCurrentQuote()
+    }
+
+    renderButtons(){
+        const answers = this.state.gameQuote.answers
+        if(answers.length > 0){
+            return (
+                <View style={styles.buttonContainer}>
+                    {answers.map((answer, index) => {
+                        return <Button
+                            style={styles.button}
+                            key={index}
+                            onPress={() => this.answerButtonPressed(answer)}
+                            >
+                            {answer}
+                        </Button>
+                    })}
+                </View>
+            )
+        }
+    }
+
+    renderQuote(){
+        if (this.state.gameQuote.answers.length <= 0) return <Text style={{ fontSize: 20, textAlign: 'center' }}>Hit start to play</Text>
+        return <Text style={{ fontSize: 20, textAlign: 'center' }}>{this.state.gameQuote.quote.quote}</Text>
     }
 
     render() {
         return (
             <View style={styles.container}>
-                <Button title="Start" onPress={() => this.startGame()} />
-                {this.renderQuotes()}
+                <Button title="Start" onPress={() => this.startGame()} > Start</Button>
+                {this.renderQuote()}
+                {this.renderButtons()}
             </View>
         )
     }
@@ -69,5 +116,17 @@ const styles = StyleSheet.create({
         paddingLeft: 15,
         paddingRight: 15,
         paddingBottom: 25,
+    },
+    buttonContainer: {
+        marginTop: 25,
+        flex: 1,
+        justifyContent: 'space-evenly',
+        alignContent: 'space-between',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+    },
+    button: {
+        width: '45%',
+        height: '15%',
     },
 })
