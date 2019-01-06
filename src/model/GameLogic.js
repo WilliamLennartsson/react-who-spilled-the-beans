@@ -20,7 +20,6 @@ export default class GameLogic extends Component {
 
 export const newCurrentQuote = (state) => {
     const { quotes } = state
-    // console.log(quotes)
     if (quotes.length <= 0) return
     const numberOfWrongAnswers = 3
 
@@ -32,10 +31,21 @@ export const newCurrentQuote = (state) => {
         newAnswers.push(quotes[randomNumber].author)
     }
     newAnswers.push(currentQuote.author)
+    const shuffledAnswers = shuffleAnswers(newAnswers)
     const newGameQuote = {
         quote: currentQuote,
-        answers: newAnswers,
+        answers: shuffledAnswers,
     }
-    // console.log('currentQuote: ', newGameQuote)
     return newGameQuote
+}
+
+const shuffleAnswers = (answers) => {
+    const shuffledAnswers = answers
+    for (let i = 0; i < shuffledAnswers.length; i++) {
+        const j = Math.floor(Math.random() * (i + 1));
+        const x = shuffledAnswers[i];
+        shuffledAnswers[i] = shuffledAnswers[j];
+        shuffledAnswers[j] = x;
+    }
+    return shuffledAnswers
 }
