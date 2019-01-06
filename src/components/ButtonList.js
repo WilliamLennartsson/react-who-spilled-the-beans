@@ -22,19 +22,20 @@ export default class ButtonList extends Component {
 
     renderList() {
         const { names } = this.props
-        const buttonNames = names
-        //console.log(names, " NAmes")
-        return (<View style={styles.container}>
+        return (
+        <View style={styles.container}>
             {names.map((answer, index) => {
-                return <Button
-                    style={styles.button}
-                    key={index}
-                    onPress={() => this.props.onPressListItem}
-                >
-                {answer}
-                </Button>
+                return (
+                    <Button
+                        style={styles.button}
+                        key={index}
+                        onPress={() => this.props.onPressListItem}
+                    >
+                    {answer}
+                    </Button>)
             })}
-        </View>)
+        </View>
+        )
     }
 
     render() {
@@ -62,8 +63,9 @@ const styles = StyleSheet.create({
 })
 
 ButtonList.propTypes = {
-    // names: PropTypes.arrayOf(React.propTypes.string),
-    names: PropTypes.array,
+    names: PropTypes.instanceOf(Array),
+    // names: PropTypes.arrayOf(PropTypes.string),
+
 }
 
 ButtonList.defaultProps = {
